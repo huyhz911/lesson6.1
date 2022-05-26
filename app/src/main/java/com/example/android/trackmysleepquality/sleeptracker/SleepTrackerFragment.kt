@@ -63,6 +63,17 @@ class SleepTrackerFragment : Fragment() {
 
         binding.sleepTrackerViewModel = sleepTrackerViewModel
 
+        //  tao tham chieu toi adapter
+        val adapter = SleepNightAdapter()
+        binding.sleepList.adapter = adapter
+
+        //Inside the observer, whenever you get a non-null value (for nights), assign the value to the adapter's data. This is the completed code for the observer and setting the data
+        sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.data = it
+            }
+        })
+
         sleepTrackerViewModel.navigateToSleepQuality.observe(viewLifecycleOwner, Observer { night -> night?.let {
             this.findNavController().navigate(SleepTrackerFragmentDirections.actionSleepTrackerFragmentToSleepQualityFragment(night.nightID))
             sleepTrackerViewModel.doneNavigating()
@@ -78,8 +89,7 @@ class SleepTrackerFragment : Fragment() {
                 sleepTrackerViewModel.doneShowingSnackbar()
             }
         })
-          val adapter = SleepNightAdapter()
-        binding.sleepList.adapter = adapter
+
 
 
 

@@ -41,7 +41,8 @@ class SleepTrackerViewModel(
                 _navigateToSleepQuality.value = null
         }
 
-        private val nights = database.getAllNights()
+        // Remove private from nights, because you will create an observer that needs to access this variable. Your declaration should look like this:
+        val nights = database.getAllNights()
 
         val nightsString = Transformations.map(nights) { nights ->
                 formatNights(nights, application.resources)
